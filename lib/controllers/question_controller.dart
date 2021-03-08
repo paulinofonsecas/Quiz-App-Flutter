@@ -1,6 +1,7 @@
 import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 import 'package:get/state_manager.dart';
+import 'package:quiz_app/constants.dart';
 import 'package:quiz_app/models/Questions.dart';
 import 'package:quiz_app/screens/score/score_screen.dart';
 
@@ -18,25 +19,43 @@ class QuestionController extends GetxController
   PageController _pageController;
   PageController get pageController => this._pageController;
 
-  List<Question> _questions = sample_data
-      .map(
-        (question) => Question(
-            id: question['id'],
-            question: question['question'],
-            options: question['options'],
-            answer: question['answer_index']),
-      )
-      .toList();
+  List<Question> questoesCache;
+
+  List<Question> get _questions {
+    if (questoesCache == null) {
+      questoesCache = [];
+      var list = List.from(data);
+      questoesCache = list
+          .map<Question>(
+            (question) => Question(
+              id: question['id'],
+              question: question['question'],
+              options: question['options'],
+              answer: question['answer_index'],
+            ),
+          )
+          .toList();
+      questoesCache.forEach((question) {
+        question.options = question.shuffle();
+      });
+
+      questoesCache.shuffle();
+    }
+    return questoesCache;
+  }
+
   List<Question> get questions => this._questions;
 
   bool _isAnswered = false;
   bool get isAnswered => this._isAnswered;
 
-  int _correctAns;
+  int _correctAns = 0;
   int get correctAns => this._correctAns;
 
   int _selectedAns;
   int get selectedAns => this._selectedAns;
+
+  bool _block = false;
 
   // for more about obs please check documentation
   RxInt _questionNumber = 1.obs;
@@ -50,8 +69,8 @@ class QuestionController extends GetxController
   void onInit() {
     // Our animation duration is 60 s
     // so our plan is to fill the progress bar within 60s
-    _animationController =
-        AnimationController(duration: Duration(seconds: 60), vsync: this);
+    _animationController = AnimationController(
+        duration: Duration(seconds: kSegundoPorPerguntas), vsync: this);
     _animation = Tween<double>(begin: 0, end: 1).animate(_animationController)
       ..addListener(() {
         // update like setState
@@ -75,9 +94,11 @@ class QuestionController extends GetxController
 
   void checkAns(Question question, int selectedIndex) {
     // because once user press any option then it will run
+    if (_block) return;
     _isAnswered = true;
     _correctAns = question.answer;
     _selectedAns = selectedIndex;
+    _block = true;
 
     if (_correctAns == _selectedAns) _numOfCorrectAns++;
 
@@ -86,8 +107,9 @@ class QuestionController extends GetxController
     update();
 
     // Once user select an ans after 3s it will go to the next qn
-    Future.delayed(Duration(seconds: 3), () {
+    Future.delayed(Duration(seconds: 2), () {
       nextQuestion();
+      _block = false;
     });
   }
 
@@ -105,7 +127,7 @@ class QuestionController extends GetxController
       _animationController.forward().whenComplete(nextQuestion);
     } else {
       // Get package provide us simple way to naviigate another page
-      Get.to(ScoreScreen());
+      Get.off(ScoreScreen());
     }
   }
 

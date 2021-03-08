@@ -2,8 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:quiz_app/constants.dart';
 import 'package:quiz_app/controllers/question_controller.dart';
-import 'package:quiz_app/models/Questions.dart';
-import 'package:websafe_svg/websafe_svg.dart';
 
 import 'progress_bar.dart';
 import 'question_card.dart';
@@ -16,10 +14,9 @@ class Body extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     // So that we have acccess our controller
-    QuestionController _questionController = Get.put(QuestionController());
+    QuestionController _questionController = Get.find();
     return Stack(
       children: [
-        WebsafeSvg.asset("assets/icons/bg.svg", fit: BoxFit.fill),
         SafeArea(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -29,7 +26,7 @@ class Body extends StatelessWidget {
                     const EdgeInsets.symmetric(horizontal: kDefaultPadding),
                 child: ProgressBar(),
               ),
-              SizedBox(height: kDefaultPadding),
+              SizedBox(height: kDefaultPadding / 2),
               Padding(
                 padding:
                     const EdgeInsets.symmetric(horizontal: kDefaultPadding),
@@ -37,7 +34,7 @@ class Body extends StatelessWidget {
                   () => Text.rich(
                     TextSpan(
                       text:
-                          "Question ${_questionController.questionNumber.value}",
+                          "Pegunta ${_questionController.questionNumber.value}",
                       style: Theme.of(context)
                           .textTheme
                           .headline4
@@ -56,16 +53,18 @@ class Body extends StatelessWidget {
                 ),
               ),
               Divider(thickness: 1.5),
-              SizedBox(height: kDefaultPadding),
+              SizedBox(height: kDefaultPadding / 2),
               Expanded(
-                child: PageView.builder(
-                  // Block swipe to next qn
-                  physics: NeverScrollableScrollPhysics(),
-                  controller: _questionController.pageController,
-                  onPageChanged: _questionController.updateTheQnNum,
-                  itemCount: _questionController.questions.length,
-                  itemBuilder: (context, index) => QuestionCard(
-                      question: _questionController.questions[index]),
+                child: Center(
+                  child: PageView.builder(
+                    // Block swipe to next qn
+                    physics: NeverScrollableScrollPhysics(),
+                    controller: _questionController.pageController,
+                    onPageChanged: _questionController.updateTheQnNum,
+                    itemCount: _questionController.questions.length,
+                    itemBuilder: (context, index) => QuestionCard(
+                        question: _questionController.questions[index]),
+                  ),
                 ),
               ),
             ],

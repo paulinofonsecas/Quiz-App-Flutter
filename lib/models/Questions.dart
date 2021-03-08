@@ -1,35 +1,56 @@
+import 'dart:async';
+import 'dart:convert';
+import 'package:flutter/services.dart' show rootBundle;
+
 class Question {
-  final int id, answer;
-  final String question;
-  final List<String> options;
+  int id, answer;
+  String question;
+  List<String> options;
 
   Question({this.id, this.question, this.answer, this.options});
+
+  List<String> shuffle() {
+    var list = List<String>.from(options);
+    var map = {answer: list[answer]};
+    list.shuffle();
+    answer = list.indexOf(map[answer]);
+    return list;
+  }
 }
 
-const List sample_data = [
+List data = [
   {
     "id": 1,
-    "question":
-        "Flutter is an open-source UI software development kit created by ______",
-    "options": ['Apple', 'Google', 'Facebook', 'Microsoft'],
-    "answer_index": 1,
+    "question": "Quem é o atual governador da provincia?",
+    "options": [
+      "João Manuel gonsalves lourenço",
+      "Pereira Alfredo",
+      "Americo cachipaco",
+      "Boa vida Neto"
+    ],
+    "answer_index": 1
   },
   {
     "id": 2,
-    "question": "When google release Flutter.",
-    "options": ['Jun 2017', 'Jun 2017', 'May 2017', 'May 2018'],
-    "answer_index": 2,
+    "question": "Quantos anos tem a província do Bié?",
+    "options": ["143", "172", "190", "200"],
+    "answer_index": 1
   },
   {
     "id": 3,
-    "question": "A memory location that holds a single letter or number.",
-    "options": ['Double', 'Int', 'Char', 'Word'],
-    "answer_index": 2,
+    "question": "Como se chama o criador do jogo?",
+    "options": [
+      "Antonio Lopes",
+      "Salvador Fonseca",
+      "Paulino Fonseca",
+      "Vencislau Moreira"
+    ],
+    "answer_index": 2
   },
   {
     "id": 4,
-    "question": "What command do you use to output data to the screen?",
-    "options": ['Cin', 'Count>>', 'Cout', 'Output>>'],
-    "answer_index": 2,
-  },
+    "question": "Em qual municipio nasceu o maior rio de angola?",
+    "options": ["Cuito", "Andulo", "Cuemba", "Chitembo"],
+    "answer_index": 3
+  }
 ];

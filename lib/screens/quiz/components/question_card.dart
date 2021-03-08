@@ -18,32 +18,41 @@ class QuestionCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     QuestionController _controller = Get.put(QuestionController());
-    return Container(
-      margin: EdgeInsets.symmetric(horizontal: kDefaultPadding),
-      padding: EdgeInsets.all(kDefaultPadding),
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(25),
-      ),
-      child: Column(
-        children: [
-          Text(
-            question.question,
-            style: Theme.of(context)
-                .textTheme
-                .headline6
-                .copyWith(color: kBlackColor),
-          ),
-          SizedBox(height: kDefaultPadding / 2),
-          ...List.generate(
-            question.options.length,
-            (index) => Option(
-              index: index,
-              text: question.options[index],
-              press: () => _controller.checkAns(question, index),
+    return SingleChildScrollView(
+      child: Container(
+        margin: EdgeInsets.symmetric(horizontal: kDefaultPadding / 2),
+        padding: EdgeInsets.symmetric(
+          horizontal: kDefaultPadding / 2,
+          vertical: kDefaultPadding,
+        ),
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(25),
+        ),
+        child: Column(
+          children: [
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Text(
+                question.question,
+                textAlign: TextAlign.center,
+                style: Theme.of(context).textTheme.headline6.copyWith(
+                      color: kBlackColor,
+                      fontSize: 18,
+                    ),
+              ),
             ),
-          ),
-        ],
+            SizedBox(height: kDefaultPadding / 4),
+            ...List.generate(
+              question.options.length,
+              (index) => Option(
+                index: index,
+                text: question.options[index],
+                press: () => _controller.checkAns(question, index),
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }
