@@ -4,16 +4,16 @@ import '../constants.dart';
 
 class PrimaryButton extends StatelessWidget {
   const PrimaryButton({
-    Key key,
-    this.title,
+    super.key,
+    required this.title,
     this.titleStyle,
-    this.onTap,
+    required this.onTap,
     this.gradient = kPrimaryGradient,
-  }) : super(key: key);
+  });
 
   final String title;
-  final TextStyle titleStyle;
-  final Function onTap;
+  final TextStyle? titleStyle;
+  final VoidCallback onTap;
   final LinearGradient gradient;
 
   @override
@@ -40,7 +40,7 @@ class PrimaryButton extends StatelessWidget {
         child: Text(
           title,
           style: titleStyle ??
-              Theme.of(context).textTheme.headline6.copyWith(
+              Theme.of(context).textTheme.titleLarge!.copyWith(
                     color: Colors.white,
                   ),
         ),

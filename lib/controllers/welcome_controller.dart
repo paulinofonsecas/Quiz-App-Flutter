@@ -1,9 +1,9 @@
 import 'dart:async';
 import 'dart:math';
 
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get/state_manager.dart';
-import 'package:flutter/material.dart';
 import 'package:quiz_app/constants.dart';
 
 class WelcomeController extends GetxController {
@@ -23,7 +23,7 @@ class WelcomeController extends GetxController {
     _aligY.value = aligY;
   }
 
-  Timer t;
+  late Timer t;
 
   var curve = Curves.easeInOut;
 

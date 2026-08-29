@@ -8,10 +8,10 @@ import 'option.dart';
 
 class QuestionCard extends StatelessWidget {
   const QuestionCard({
-    Key key,
+    super.key,
     // it means we have to pass this
-    @required this.question,
-  }) : super(key: key);
+    required this.question,
+  });
 
   final Question question;
 
@@ -36,7 +36,7 @@ class QuestionCard extends StatelessWidget {
               child: Text(
                 question.question,
                 textAlign: TextAlign.center,
-                style: Theme.of(context).textTheme.headline6.copyWith(
+                style: Theme.of(context).textTheme.titleLarge!.copyWith(
                       color: kBlackColor,
                       fontSize: 18,
                     ),

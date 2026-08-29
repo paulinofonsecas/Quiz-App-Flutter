@@ -1,11 +1,9 @@
-import 'package:flutter/services.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:quiz_app/components/primary_button.dart';
 import 'package:quiz_app/constants.dart';
 import 'package:quiz_app/controllers/welcome_controller.dart';
 import 'package:quiz_app/screens/quiz/quiz_screen.dart';
-import 'package:websafe_svg/websafe_svg.dart';
 
 class WelcomeScreen extends StatefulWidget {
   @override
@@ -36,8 +34,12 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                       Spacer(flex: 2), //2/6
                       Text(
                         "Vamos começar,",
-                        style: Theme.of(context).textTheme.headline3.copyWith(
-                            color: Colors.white, fontWeight: FontWeight.bold),
+                        style: Theme.of(context)
+                            .textTheme
+                            .headlineLarge
+                            ?.copyWith(
+                                color: Colors.white,
+                                fontWeight: FontWeight.bold),
                       ),
                       Text("Aperte o botão abaixo para começar"),
                       Spacer(), // 1/6

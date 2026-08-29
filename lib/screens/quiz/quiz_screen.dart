@@ -26,7 +26,7 @@ class QuizScreen extends StatelessWidget {
           },
         ),
         actions: [
-          FlatButton(
+          TextButton(
               onPressed: _controller.nextQuestion, child: Text("Saltar")),
         ],
       ),

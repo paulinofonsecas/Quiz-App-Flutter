@@ -1,19 +1,19 @@
-import 'dart:async';
-import 'dart:convert';
-import 'package:flutter/services.dart' show rootBundle;
-
 class Question {
   int id, answer;
   String question;
   List<String> options;
 
-  Question({this.id, this.question, this.answer, this.options});
+  Question(
+      {required this.id,
+      required this.question,
+      required this.answer,
+      required this.options});
 
   List<String> shuffle() {
     var list = List<String>.from(options);
-    var map = {answer: list[answer]};
+    final correctOption = list[answer];
     list.shuffle();
-    answer = list.indexOf(map[answer]);
+    answer = list.indexOf(correctOption);
     return list;
   }
 }

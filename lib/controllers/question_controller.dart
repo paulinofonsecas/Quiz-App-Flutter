@@ -1,6 +1,5 @@
 import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
-import 'package:get/state_manager.dart';
 import 'package:quiz_app/constants.dart';
 import 'package:quiz_app/models/Questions.dart';
 import 'package:quiz_app/screens/score/score_screen.dart';
@@ -11,15 +10,15 @@ class QuestionController extends GetxController
     with SingleGetTickerProviderMixin {
   // Lets animated our progress bar
 
-  AnimationController _animationController;
-  Animation _animation;
+  late AnimationController _animationController;
+  late Animation<double> _animation;
   // so that we can access our animation outside
   Animation get animation => this._animation;
 
-  PageController _pageController;
+  late PageController _pageController;
   PageController get pageController => this._pageController;
 
-  List<Question> questoesCache;
+  List<Question>? questoesCache;
 
   List<Question> get _questions {
     if (questoesCache == null) {
@@ -35,13 +34,13 @@ class QuestionController extends GetxController
             ),
           )
           .toList();
-      questoesCache.forEach((question) {
+      questoesCache!.forEach((question) {
         question.options = question.shuffle();
       });
 
-      questoesCache.shuffle();
+      questoesCache!.shuffle();
     }
-    return questoesCache;
+    return questoesCache!;
   }
 
   List<Question> get questions => this._questions;
@@ -52,7 +51,7 @@ class QuestionController extends GetxController
   int _correctAns = 0;
   int get correctAns => this._correctAns;
 
-  int _selectedAns;
+  int _selectedAns = -1;
   int get selectedAns => this._selectedAns;
 
   bool _block = false;
